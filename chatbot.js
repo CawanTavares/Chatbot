@@ -1,14 +1,43 @@
 const qrcode = require('qrcode');
 const fs = require('fs');
 const { Client, Buttons, List, MessageMedia } = require('whatsapp-web.js');
+const AWS = require('aws-sdk');
+const pupeeteer = require ('puppeteer-core')
+
+// Configure AWS SDK (ensure your credentials are set in your environment or via shared credentials file)
+AWS.config.update({ region: 'sa-east-1' }); // change region to the cheapest one
+
+const s3 = new AWS.S3();
 
 const client = new Client();
 
-// Gera e salva o QR Code como imagem
+// Gera e salva o QR Code como imagem, depois uploads to S3
 client.on('qr', async qr => {
     try {
-        await qrcode.toFile('./qrcode.png', qr);
+        const qrFile = './qrcode.png';
+        await qrcode.toFile(qrFile, qr);
         console.log('QR Code gerado e salvo como "qrcode.png".');
+
+        // Read the QR code file
+        const fileContent = fs.readFileSync(qrFile);
+
+        // Setup S3 upload parameters
+        const params = {
+            Bucket: 'chatbotjs-bucket',              // Replace with your S3 bucket name
+            Key: 'qrcodes/qrcode.png',                // The destination path in your bucket
+            Body: fileContent,
+            ContentType: 'image/png'
+        };
+
+        // Upload the file to S3
+        s3.upload(params, (err, data) => {
+            if (err) {
+                console.error('Erro ao fazer upload do QR Code para o S3:', err);
+            } else {
+                console.log('QR Code carregado no S3 em:', data.Location);
+            }
+        });
+
     } catch (err) {
         console.error('Erro ao gerar QR Code:', err);
     }

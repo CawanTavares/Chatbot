@@ -1,7 +1,13 @@
 {
   "dependencies": {
+    "aws-sdk": "^2.1692.0",
     "moment-timezone": "^0.5.45",
+    "puppeteer": "^24.4.0",
+    "qrcode": "^1.5.4",
     "qrcode-terminal": "^0.12.0",
-    "whatsapp-web.js": "" 
+    "whatsapp-web.js": ""
+  },
+  "scripts": {
+    "start": "node chatbot.js"
   }
 }
