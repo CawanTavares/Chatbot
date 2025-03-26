@@ -56,7 +56,6 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 client.on('message', async msg => {
 
     if (msg.body.match(/(menu|Menu|dia|tarde|noite|oi|Oi|Olá|olá|ola|Ola)/i) && msg.from.endsWith('@c.us')) {
-
         const chat = await msg.getChat();
         const contact = await msg.getContact();
         const name = contact.pushname.split(" ")[0];
@@ -70,15 +69,12 @@ client.on('message', async msg => {
             `2️⃣ - Consultoria jurídica\n` +
             `3️⃣ - Marcar uma reunião\n` +
             `4️⃣ - Documentação e contratos\n` +
-            `5️⃣ - Outras dúvidas`
+            `5️⃣ - Falar com a Dra. Larissa Martins\n` +
         );
     }
 
     if (msg.body === '1' && msg.from.endsWith('@c.us')) {
-        const chat = await msg.getChat();
         await delay(2000);
-        await chat.sendStateTyping();
-        await delay(3000);
         await client.sendMessage(msg.from,
             `📌 *Áreas de Atuação da Dra. Larissa Martins*:\n\n` +
             `✔ Direito Civil\n` +
@@ -86,62 +82,69 @@ client.on('message', async msg => {
             `✔ Direito do Consumidor\n` +
             `✔ Direito Trabalhista\n` +
             `✔ Assessoria Jurídica Empresarial\n\n` +
-            `Caso precise de mais informações, me avise!`
+            `Digite *0* para voltar ao menu principal.`
         );
     }
 
     if (msg.body === '2' && msg.from.endsWith('@c.us')) {
-        const chat = await msg.getChat();
         await delay(2000);
-        await chat.sendStateTyping();
-        await delay(3000);
         await client.sendMessage(msg.from,
             `📞 *Consultoria Jurídica Online*\n\n` +
             `A Dra. Larissa Martins oferece consultoria jurídica para te ajudar a entender seus direitos e resolver suas dúvidas legais.\n\n` +
             `🔹 Atendimento via WhatsApp ou videochamada\n` +
             `🔹 Esclarecimento de questões legais\n` +
             `🔹 Análise de contratos\n\n` +
-            `Digite *3* para agendar uma consulta!`
+            `Digite *3* para agendar uma consulta ou *0* para voltar ao menu principal.`
         );
     }
 
     if (msg.body === '3' && msg.from.endsWith('@c.us')) {
-        const chat = await msg.getChat();
         await delay(2000);
-        await chat.sendStateTyping();
-        await delay(3000);
         await client.sendMessage(msg.from,
             `📅 *Agendamento de Consultoria Jurídica*\n\n` +
             `Para marcar uma reunião com a Dra. Larissa Martins, acesse o link abaixo e escolha um horário disponível:\n\n` +
             `🌐 [Agendar Consulta](https://advlarissamartins.com.br/agendamento)\n\n` +
-            `Ou, se preferir, envie uma mensagem diretamente para combinar um horário.`
+            `Ou, se preferir, envie uma mensagem diretamente para combinar um horário.\n\n` +
+            `Digite *0* para voltar ao menu principal.`
         );
     }
 
     if (msg.body === '4' && msg.from.endsWith('@c.us')) {
-        const chat = await msg.getChat();
         await delay(2000);
-        await chat.sendStateTyping();
-        await delay(3000);
         await client.sendMessage(msg.from,
             `📜 *Documentação e Contratos*\n\n` +
             `A Dra. Larissa Martins pode te ajudar com:\n` +
             `✔ Elaboração e revisão de contratos\n` +
             `✔ Procurações\n` +
             `✔ Acordos extrajudiciais\n\n` +
-            `Caso precise de um serviço específico, envie mais detalhes!`
+            `Caso precise de um serviço específico, envie mais detalhes!\n\n` +
+            `Digite *0* para voltar ao menu principal.`
         );
     }
 
     if (msg.body === '5' && msg.from.endsWith('@c.us')) {
-        const chat = await msg.getChat();
         await delay(2000);
-        await chat.sendStateTyping();
-        await delay(3000);
         await client.sendMessage(msg.from,
-            `❓ *Outras Dúvidas*\n\n` +
-            `Se precisar de mais informações ou tiver uma questão específica, fale diretamente com nossa equipe pelo WhatsApp ou visite nosso site:\n\n` +
-            `🌐 [Site Oficial](https://advlarissamartins.com.br)`
+            `📝 *Fale com a Dra. Larissa Martins*\n\n` +
+            `Para um atendimento mais ágil, por favor, envie seu caso com o máximo de detalhes possível.\n\n` +
+            `📌 Qual é sua dúvida ou problema jurídico?\n` +
+            `📌 Já existe algum processo em andamento?\n` +
+            `📌 Qual a cidade e estado onde ocorreu o caso?\n\n` +
+            `Após enviar essas informações, a Dra. Larissa entrará em contato o mais breve possível.\n\n` +
+            `Digite *0* para voltar ao menu principal.`
+        );
+    }
+
+    if (msg.body === '0' && msg.from.endsWith('@c.us')) {
+        await delay(2000);
+        await client.sendMessage(msg.from,
+            `🔄 Voltando ao menu principal...\n\n` +
+            `1️⃣ - Áreas de atuação\n` +
+            `2️⃣ - Consultoria jurídica\n` +
+            `3️⃣ - Marcar uma reunião\n` +
+            `4️⃣ - Documentação e contratos\n` +
+            `5️⃣ - Falar com a Dra. Larissa Martins\n` +
+            `0️⃣ - Voltar ao menu principal`
         );
     }
 });
